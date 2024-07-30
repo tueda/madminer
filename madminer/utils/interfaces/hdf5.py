@@ -193,7 +193,7 @@ def save_madminer_settings(
 
     systematics_names = [s.name for s in systematics.values()]
     systematics_types = [s.type.value for s in systematics.values()]
-    systematics_scales = [s.scale.value for s in systematics.values()]
+    systematics_scales = [s.scale.value if s.scale else None for s in systematics.values()]
     systematics_values = [s.value for s in systematics.values()]
 
     # Save information within the HDF5 file
