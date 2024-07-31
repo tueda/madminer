@@ -122,7 +122,7 @@ def load_madminer_settings(file_name: str, include_nuisance_benchmarks: bool) ->
     systematics = OrderedDict()
     for s_name, s_type, s_value, s_scale in zip(syst_names, syst_types, syst_values, syst_scales):
         s_type = SystematicType.from_str(s_type)
-        s_scale = SystematicScale.from_str(s_scale)
+        s_scale = SystematicScale.from_str(s_scale) if s_scale else None
         systematics[s_name] = Systematic(s_name, s_type, s_value, s_scale)
 
     # Build finite differences dictionary
