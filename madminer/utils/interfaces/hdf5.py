@@ -1203,6 +1203,8 @@ def _load_systematics(file_name: str) -> Tuple[List[str], List[str], List[System
         else:
             systematics_names = _decode_strings(systematics_names)
             systematics_types = _decode_strings(systematics_types)
+            systematics_values = _decode_strings(systematics_values)
+            systematics_values = [_parse_systematic_value(value) for value in systematics_values]
             systematics_scales = _decode_strings(systematics_scales)
             systematics_scales = [None if scale == EMPTY_EXPR else scale for scale in systematics_scales]
 
@@ -1297,6 +1299,28 @@ def _decode_strings(strings: List[bytes]) -> List[str]:
     """
 
     return [s.decode("ascii") for s in strings]
+
+
+def _parse_systematic_value(value: str) -> SystematicValue:
+    """
+    Attempt to convert the given value to a float.
+
+    Parameters
+    ----------
+    value : str
+        The value to be converted.
+
+    Returns
+    -------
+    result_value: SystematicValue
+        The converted float value if the conversion is successful, otherwise the original string.
+    """
+
+    try:
+        converted_value = float(value)
+        return converted_value
+    except ValueError:
+        return value
 
 
 def _get_sorted_weights(benchmark_names: List[str], weights: Dict[str, float]) -> List[float]:
